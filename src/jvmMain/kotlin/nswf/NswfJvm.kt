@@ -28,7 +28,7 @@ abstract class Context() {
 
 class Options(val parsePostParams: Boolean = true)
 
-class NswfServer<CTX : Context>() {
+open class NswfServer<CTX : Context>() {
     val L by logger()
 
     val NOT_SPECIFIED: suspend (CTX) -> Boolean = { throw Exception("should not be used") }

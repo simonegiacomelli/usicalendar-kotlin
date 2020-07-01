@@ -7,7 +7,12 @@ import io.ktor.http.ContentType
 import io.ktor.response.header
 import io.ktor.response.respondText
 import io.ktor.util.pipeline.PipelineContext
+import org.jetbrains.exposed.sql.CurrentDateTime
+import org.jetbrains.exposed.sql.SqlExpressionBuilder
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.plus
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.sql.update
 import kotlin.system.measureTimeMillis
 
 class IcsCalendarResponse(
@@ -55,4 +60,13 @@ class IcsCalendarResponse(
         }
     }
 
+}
+
+private fun counterCalendarIncrement(calendar_id: Long) {
+    Calendars.update({ Calendars.id eq calendar_id }) {
+        with(SqlExpressionBuilder) {
+            it.update(counterCalendarRequests, counterCalendarRequests + 1)
+            it.update(dtLastCalendarRequests, CurrentDateTime())
+        }
+    }
 }
