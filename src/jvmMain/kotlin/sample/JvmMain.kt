@@ -105,7 +105,6 @@ fun main() {
         allUrlCache.startCacheRefresher.value //start thread
         val agg = CalAggregator(allUrlCache)
         environment.log.info("Web directory: $webDir")
-        var state = true
         val nswf = NswfServer<NettyContext>().apply {
             afterServe = {
                 it.connClose()
