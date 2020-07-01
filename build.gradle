@@ -117,3 +117,9 @@ task runSample(type: JavaExec, dependsOn: [jvmJar]) {
     classpath(configurations.jvmRuntimeClasspath, jvmJar)
     args = []
 }
+
+task showdatabase(type: JavaExec, dependsOn: [jvmJar]) {
+    group = "application"
+    main = "sample.PersistenceKt"
+    classpath(configurations.jvmRuntimeClasspath, jvmJar)
+}

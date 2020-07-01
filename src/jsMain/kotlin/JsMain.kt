@@ -1,6 +1,5 @@
 import fragment.*
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.await
 import kotlinx.coroutines.launch
 import nswf.Appenders
 import nswf.Logger
@@ -9,11 +8,9 @@ import widgets.app.AboutWidget
 import widgets.app.HowtoWidget
 import widgets.app.SettingsWidget
 import widgets.app.SetupOwnCalendarWidget
-import widgets.components.PagedTableWidget
 import widgets.components.TableWidget
 import kotlin.browser.document
 import kotlin.browser.window
-import kotlin.js.Promise
 import kotlin.random.Random
 import kotlin.random.nextUInt
 
