@@ -87,13 +87,20 @@ kotlin {
     }
 }
 
-jvmJar {
-    dependsOn(jsBrowserProductionWebpack)
-    //includes compiled js file
-    from(new File(jsBrowserProductionWebpack.entry.name, jsBrowserProductionWebpack.outputPath))
-}
+//jvmJar {
+//    dependsOn(jsBrowserProductionWebpack)
+//    //includes compiled js file
+//    from(new File(jsBrowserProductionWebpack.entry.name, jsBrowserProductionWebpack.outputPath))
+//}
 
 task run(type: JavaExec, dependsOn: [jvmJar]) {
+    group = "application"
+    main = "sample.JvmMainKt"
+    classpath(configurations.jvmRuntimeClasspath, jvmJar)
+    args = []
+}
+
+task runSample(type: JavaExec, dependsOn: [jvmJar]) {
     group = "application"
     main = "sample.SampleJvmKt"
     classpath(configurations.jvmRuntimeClasspath, jvmJar)

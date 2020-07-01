@@ -90,14 +90,14 @@ fun main() {
             }
         }
 
-        val currentDir = File(".").absoluteFile
+        val currentDir = File(".").absoluteFile.normalize()
         environment.log.info("Current directory: $currentDir")
 
         val webDir = listOf(
+            "build/distributions",
             "src/jsMain/web",
             "web",
             "../src/jsMain/web"
-
         ).map {
             File(currentDir, it)
         }.firstOrNull { it.isDirectory }?.absoluteFile ?: error("Can't find 'web' folder for this sample")
@@ -235,14 +235,9 @@ fun main() {
             }
         }
         routing {
-            static("/usicalendar/") {
-                default("src/jsMain/web/index.html")
-            }
-            static("/usicalendar/index2.html") {
-                default("src/jsMain/web/index2.html")
-            }
-            static("/usicalendar/static") {
+            static("usicalendar") {
                 files(webDir)
+                default(webDir.resolve("index.html"))
             }
             static("/src") {
                 files("./src")
