@@ -39,7 +39,7 @@ object JsMain {
                 Api.apiLog("application-startup", "with token param")
             } else
                 Api.apiLog("application-startup", "without token param")
-            ResourceManager.loadResources()
+
             val rootDiv = document.getElementById("rootDiv")!!
             //rootDiv.appendChild(rootWidget.elementInstance)
             rootDiv.appendChild(rootWidget.elementInstance)

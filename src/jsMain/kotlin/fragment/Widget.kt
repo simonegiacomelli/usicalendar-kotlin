@@ -1,18 +1,14 @@
 package fragment
 
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.await
 import nswf.Logger
 import nswf.logger
 import org.w3c.dom.*
 import kotlin.browser.document
 import kotlin.browser.window
-import kotlin.js.Promise
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
 
-open abstract class HolderBase : ResourceWidget() {
+abstract class HolderBase : ResourceWidget() {
     var notifyNewPushState = {}
     val widgets = mutableListOf<ResourceWidget>()
     abstract fun closeCurrent()
@@ -128,18 +124,9 @@ open class ResourceManagerCls {
     val resources by lazy { window.asDynamic()["widget_resources"] as Map<String, String> } //this comes from generated code
 
     inner class Options(val simpleName: String, val tagName: String, kClass: KClass<out Any>) {
-        var _promise: Promise<String>? = null
-        val promise get() = _promise!!
         var loadResource = true
-        var resourceContent = ""
+        val resourceContent by lazy { window.atob(resources.getOrElse("${simpleName}.html") { "" }) }
         var widgetConstructor: (() -> ResourceWidget)? = null
-
-        fun loadResourceOpt() {
-            val resName = "${simpleName}.html"
-
-            resourceContent = window.atob(resources.getOrElse(resName) { "" })
-            val content_excerpt = resourceContent.replace("\n", " ").replace("\r", " ").substring(0, 10)
-        }
     }
 
     operator fun get(name: String) =
@@ -172,31 +159,12 @@ open class ResourceManagerCls {
         if (opt2 != null) return opt2
         val opt = Options(simpleName, tagName(widgetClass()), widgetClass())
         L.info("Registering ${opt.simpleName}")
-        opt.resourceContent = ""
         simpleNames[opt.simpleName] = opt
         tags[opt.tagName] = opt
         return opt
     }
-
-    inline fun <reified T : ResourceWidget> loadResource(noinline widgetConstructor: () -> T): Promise<String> {
-        val opt = reg { widgetConstructor() }
-        if (opt.resourceContent.isBlank())
-            loadResourceOpt(opt)
-        return opt.promise
-    }
-
-    fun loadResources(): Unit = simpleNames.filter { it.value.loadResource }.forEach {
-
-        val opt = it.value
-        loadResourceOpt(opt)
-    }
-
-    fun loadResourceOpt(opt: Options) = opt.loadResourceOpt()
-
     fun resourceFor(widget: ResourceWidget) = tags[tagName(widget::class)]?.resourceContent
         ?: throw Exception("No resource loaded for ${widget::class.simpleName}. Did you register the class?")
-
-
 }
 
 class Name(val instanceName: String) {
