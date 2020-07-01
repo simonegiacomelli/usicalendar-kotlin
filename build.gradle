@@ -31,6 +31,17 @@ kotlin {
             def output = new java.io.File(dir, "generated1.kt")
             def content = file("generated_template.kt").text.replace("{BUILDDATE}", "${new Date()}")
             output.text = content
+            output.append("\nval resources = mapOf<String,String>(\n")
+
+            def widgets = file("src/jsMain/resources/widgets")
+            def sep = ""
+            widgets.list().each {
+                println("adding resource $it")
+                def resource = file(widgets.path + '/' + it)
+                output.append("$sep\"$it\" to \"${resource.text.bytes.encodeBase64().toString()}\"")
+                sep = ",\n"
+            }
+            output.append("\n)\nprivate val installResources = { window.asDynamic()[\"widget_resources\"] = resources }()\n")
         }
         browser {
         }
