@@ -131,7 +131,7 @@ object globalFun {
 
     val howto = { app.calendarCodesWidget.show() }
     val about = { app.aboutWidget.show() }
-    val table = { app.tableWidget.showAsync() }
+    val table = { app.tableWidget.show() }
 
     fun handleBack() {
         window.onpopstate = { currentHolder().closeCurrent() }

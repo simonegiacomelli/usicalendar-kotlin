@@ -134,24 +134,11 @@ open class ResourceManagerCls {
         var resourceContent = ""
         var widgetConstructor: (() -> ResourceWidget)? = null
 
-        fun loadResourceOpt(): Promise<String> {
+        fun loadResourceOpt() {
             val resName = "${simpleName}.html"
 
             resourceContent = window.atob(resources.getOrElse(resName) { "" })
             val content_excerpt = resourceContent.replace("\n", " ").replace("\r", " ").substring(0, 10)
-            println("Requesting DONE ${simpleName} $content_excerpt")
-
-            val _promise = _promise
-            if (_promise != null)
-                return _promise
-            val promise = HttpRequestDebug.getString("${baseurl}widgets/${simpleName}.html")
-            this._promise = promise
-            println("Requesting ${simpleName}")
-            promise.then { content ->
-                resourceContent = content
-            }
-            return promise
-
         }
     }
 
@@ -456,15 +443,3 @@ fun <T : ResourceWidget> T.afterRender(func: T.() -> Unit): T {
     afterRenderFun.add { func() }
     return this
 }
-
-suspend inline fun <reified T : ResourceWidget> T.showSuspend(): T {
-    val opt = ResourceManager.regClass { T::class }.loadResourceOpt()
-    opt.await()
-    this.show()
-    return this
-}
-
-inline fun <reified T : ResourceWidget> T.showAsync() = GlobalScope.async { showSuspend() }
-
-
-

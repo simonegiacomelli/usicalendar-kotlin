@@ -181,7 +181,7 @@ class SetupOwnCalendarWidget() : ResourceWidget() {
     }
 
     private fun details(row: QueryCalendars.cl_calendar) {
-        app.create(CourseDetailWidget(row)).showAsync()
+        app.create(CourseDetailWidget(row)).show()
     }
 
     private fun no_pagination() {
