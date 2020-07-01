@@ -59,6 +59,9 @@ kotlin {
                 implementation "ch.qos.logback:logback-classic:$logback_version"
                 implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serialization_version"
                 implementation "com.soywiz:klock-jvm:$klockVersion"
+                implementation 'net.sf.biweekly:biweekly:0.6.3'
+                implementation 'com.h2database:h2:1.4.200'
+                implementation 'org.jetbrains.exposed:exposed:0.17.7'
             }
         }
         jvmTest {

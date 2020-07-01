@@ -1,0 +1,89 @@
+package db4;
+
+public class ClientDataTableSqlParser
+    {
+
+        private readonly string _sql;
+        static readonly Regex ParamRegex = new Regex(@":\w+", RegexOptions.Compiled);
+        List<string> _parameters;
+        private List<string> _ordinal;
+
+        public List<string> Parameters
+        {
+            get { return _parameters; }
+        }
+
+        public List<string> Ordinal
+        {
+            get { return _ordinal; }
+        }
+
+        public ClientDataTableSqlParser(string sql)
+        {
+            _sql = sql;
+            _parameters = new List<string>();
+            _ordinal = new List<string>();
+            Parse();
+        }
+
+        public string SqlReplaceParameterName(string paramName,string newString)
+        {
+            paramName = paramName.ToUpper();
+
+            var result = ParamRegex.Replace(_sql, match => ReplaceEvaluator(match,paramName,newString) );
+
+            return result;
+        }
+
+        private string ReplaceEvaluator(Match match,string paramName,string newString)
+        {
+            var name = GetParamName(match).ToUpper();
+            if (name != paramName)
+                return match.Value;
+            return newString;
+        }
+
+        private void Parse()
+        {
+            _parameters = new List<string>();
+
+            var match = ParamRegex.Match(_sql);
+
+            while (match.Success)
+            {
+                var parName = GetParamName(match);
+
+                if (!_parameters.Contains(parName))
+                    _parameters.Add(parName);
+
+                _ordinal.Add(parName);
+
+                match = match.NextMatch();
+
+            }
+
+        }
+
+        private string GetParamName(Match match)
+        {
+            return match.Value.Substring(1).ToUpper();
+        }
+
+        public string SpecificSql(DbProvider.DbSpecific dbSpecific)
+        {
+            Debug.Assert(dbSpecific.ParameterChar !=null ,"DbSpecific must not be empty. Can be ?, @ or other wildcard");
+
+            var sql = ParamRegex.Replace(_sql, match =>
+            {
+                string result = null;
+                var paramName = GetParamName(match);
+                if (dbSpecific.NamedParameters)
+                    result = dbSpecific.ParameterChar + paramName;
+                else
+                    result = dbSpecific.ParameterChar;
+                return result;
+            });
+            return sql;
+        }
+
+    }
