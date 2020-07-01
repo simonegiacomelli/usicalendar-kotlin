@@ -347,8 +347,10 @@ abstract class ResourceWidget {
         render()
         renderDone = true
         Acquire(elementInstance.children.asList()) //this comes after, so no name clash can injure the integrity of this widget
-        afterRenderFun.forEach { it.invoke() }
+        afterRender()
     }
+
+    open fun afterRender(){}
 
 
     open fun render() {
@@ -413,7 +415,7 @@ abstract class ResourceWidget {
 
     internal val beforeShowFun = arrayListOf<() -> Unit>()
     internal val afterShowFun = arrayListOf<() -> Unit>()
-    internal val afterRenderFun = arrayListOf<() -> Unit>()
+    //internal val afterRenderFun = arrayListOf<() -> Unit>()
 
 }
 
@@ -435,11 +437,5 @@ fun <T : ResourceWidget> T.beforeShow(func: T.() -> Unit): T {
 
 fun <T : ResourceWidget> T.afterShow(func: T.() -> Unit): T {
     afterShowFun.add { func() }
-    return this
-}
-
-fun <T : ResourceWidget> T.afterRender(func: T.() -> Unit): T {
-    if (renderDone) throw Exception("Render already done for $instanceName")
-    afterRenderFun.add { func() }
     return this
 }

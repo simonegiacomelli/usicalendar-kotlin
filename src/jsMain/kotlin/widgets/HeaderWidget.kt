@@ -59,17 +59,14 @@ class HeaderWidget : ResourceWidget() {
     var about by allEntries
     var applog by allEntries
 
+    override fun afterRender() {
+        this.chiudi = MenuEntry("Chiudi", visible = app.args.isAdmin) { globalFun.userClose() }
+        this.conf = MenuEntry("Conf", visible = app.args.isAdmin) { globalFun.settings() }
+        this.log = MenuEntry("Log", visible = app.args.isAdmin) { globalFun.logWidget() }
+        this.howto = MenuEntry("How to...", visible = false) { globalFun.howto() }
+        this.about = MenuEntry("About") { globalFun.about() }
+        this.applog = MenuEntry("AppLog", visible = app.args.isAdmin) { globalFun.table() }
 
-    init {
-        afterRender {
-            this.chiudi = MenuEntry("Chiudi", visible = app.args.isAdmin) { globalFun.userClose() }
-            this.conf = MenuEntry("Conf", visible = app.args.isAdmin) { globalFun.settings() }
-            this.log = MenuEntry("Log", visible = app.args.isAdmin) { globalFun.logWidget() }
-            this.howto = MenuEntry("How to...", visible = false) { globalFun.howto() }
-            this.about = MenuEntry("About") { globalFun.about() }
-            this.applog = MenuEntry("AppLog", visible = app.args.isAdmin) { globalFun.table() }
-        }
     }
-
 
 }

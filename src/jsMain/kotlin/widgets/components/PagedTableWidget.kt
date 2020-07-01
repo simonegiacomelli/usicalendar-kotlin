@@ -64,47 +64,45 @@ open class PagedTableWidget : ResourceWidget() {
         }
     }
 
-    init {
-        afterRender {
-            rightInfo.visible = false
-            tableHeader?.also {
-                clearRows(0)
-                tab.appendChild(it)
-            }
-            searchGuest?.also {
-                searchHost.append(it)
-                divSearch.style.display = ""
-            }
-
-            tabLinkSearch.onclickExt {
-                if (tabSearch.hasClass("active")) {
-                    tabSearch.removeClass("active")
-                    search.onhide()
-                } else {
-                    search.onshow()
-                    tabSearch.addClass("active")
-                }
-            }
-            btnSearch.onclickExt { search.onsearch() }
-
-            btnGoPage.onclickExt {
-                val x = selectPage.options[selectPage.selectedIndex]!! as HTMLOptionElement
-                pageNumber = x.value.toInt()
-                load()
-            }
-            fun changePage(event: Event, x: Int, ele: HTMLElement) {
-                event.preventDefault()
-                if (ele.hasClass(disabled))
-                    return
-                println("change page $pageNumber + ($x)")
-                pageNumber += x
-                if (pageNumber < 1) pageNumber = 1
-                if (pageNumber > totPageNumber) pageNumber = totPageNumber
-                load()
-            }
-            prevPage.onclick = { changePage(it, -1, prevPage) }
-            nextPage.onclick = { changePage(it, 1, nextPage) }
+    override fun afterRender() {
+        rightInfo.visible = false
+        tableHeader?.also {
+            clearRows(0)
+            tab.appendChild(it)
         }
+        searchGuest?.also {
+            searchHost.append(it)
+            divSearch.style.display = ""
+        }
+
+        tabLinkSearch.onclickExt {
+            if (tabSearch.hasClass("active")) {
+                tabSearch.removeClass("active")
+                search.onhide()
+            } else {
+                search.onshow()
+                tabSearch.addClass("active")
+            }
+        }
+        btnSearch.onclickExt { search.onsearch() }
+
+        btnGoPage.onclickExt {
+            val x = selectPage.options[selectPage.selectedIndex]!! as HTMLOptionElement
+            pageNumber = x.value.toInt()
+            load()
+        }
+        fun changePage(event: Event, x: Int, ele: HTMLElement) {
+            event.preventDefault()
+            if (ele.hasClass(disabled))
+                return
+            println("change page $pageNumber + ($x)")
+            pageNumber += x
+            if (pageNumber < 1) pageNumber = 1
+            if (pageNumber > totPageNumber) pageNumber = totPageNumber
+            load()
+        }
+        prevPage.onclick = { changePage(it, -1, prevPage) }
+        nextPage.onclick = { changePage(it, 1, nextPage) }
     }
 
     private fun leftInfoFunDef(it: PagedResult,pageNumber: Int) =

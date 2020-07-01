@@ -5,7 +5,6 @@ import api.QueryCalendars
 import api.kind_ux
 import fragment.ResourceManager
 import fragment.ResourceWidget
-import fragment.afterRender
 import fragment.afterShow
 import org.w3c.dom.HTMLAnchorElement
 import org.w3c.dom.HTMLSpanElement
@@ -18,14 +17,12 @@ class CourseDetailWidget(val cal: QueryCalendars.cl_calendar) : ResourceWidget()
     val fldwhen: HTMLSpanElement by docu
     val fldlink: HTMLAnchorElement by docu
 
-    init {
-        afterRender {
-            fldsummary.innerText = cal.summary
-            fldwhen.innerText = "Starts on " + cal.dateStart.toString("dd MMM HH:mm") + " ends at " +
-                    cal.dateEnd.toString("HH:mm")
-            fldlink.href = cal.url
-            fldlink.innerText = cal.url
-            Api.apiDbLogAddOnClickInstrument(this, fldlink, cal.url)
-        }
+    override fun afterRender() {
+        fldsummary.innerText = cal.summary
+        fldwhen.innerText = "Starts on " + cal.dateStart.toString("dd MMM HH:mm") + " ends at " +
+                cal.dateEnd.toString("HH:mm")
+        fldlink.href = cal.url
+        fldlink.innerText = cal.url
+        Api.apiDbLogAddOnClickInstrument(this, fldlink, cal.url)
     }
 }

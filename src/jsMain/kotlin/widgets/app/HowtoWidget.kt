@@ -16,14 +16,15 @@ class HowtoWidget : ResourceWidget() {
 
     var original = ""
 
-    init {
-        afterRender {
-            original = taEmail.value
-            httpxUrl.onfocus = {
-                httpxUrl.select()
-                true
-            }
+    override fun afterRender() {
+        original = taEmail.value
+        httpxUrl.onfocus = {
+            httpxUrl.select()
+            true
         }
+    }
+    init {
+
         beforeShow {
             val tbTokenStor = SettingsWidget.tbTokenStor
             val ical_url = window.location.host + "/usicalendar/usicalendar?token=" + tbTokenStor

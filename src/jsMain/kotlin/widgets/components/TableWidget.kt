@@ -3,7 +3,6 @@ package widgets.components
 import db4common.DataTable
 import fragment.LocalStorage
 import fragment.ResourceWidget
-import fragment.afterRender
 import fragment.firstRecursive
 import nswf_utils.cloneElement
 import org.w3c.dom.*
@@ -29,15 +28,13 @@ class TableWidget(var overrideSql: String = "") : ResourceWidget() {
         var counter = 0
     }
 
-    init {
-        afterRender {
-            taSql.value = if (sql.isNullOrBlank()) "select id,calendar,dt_creation,kind, cast(info as varchar(1000)) as info,instance FROM applogs order by id desc" else sql
-            btnSql.onclick = {
-                runQuery()
-                0
-            }
+    override fun afterRender() {
+        taSql.value = if (sql.isNullOrBlank()) "select id,calendar,dt_creation,kind, cast(info as varchar(1000)) as info,instance FROM applogs order by id desc" else sql
+        btnSql.onclick = {
             runQuery()
+            0
         }
+        runQuery()
     }
 
     private fun runQuery() {

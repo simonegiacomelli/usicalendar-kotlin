@@ -39,22 +39,23 @@ class SetupOwnCalendarWidget() : ResourceWidget() {
     val linkRequest: HTMLAnchorElement by docu
     val linkHowto: HTMLAnchorElement by docu
 
-    init {
-        afterRender {
-            Hotkey(tbFilter).add("ENTER", ::send_request)
-            tbFilter.addEventListener("keyup", { refreshTable() }, true)
-            btnFilter.onclickExt { tbFilter.value = ""; refreshTable() }
-            pagedTable.leftInfoFun = { it, pn ->
-                ("${it.recordCount} course${if (it.recordCount == 1) "" else "s"}") + " found" +
-                        if (it.pageCount > 1) ", page $pn/${it.pageCount}" else ""
-            }
-            no_pagination()
-            gui_can_create_token()
-            send_request()
-            linkFirst.onclickExt { ask_create_calendar() }
-            linkHowto.onclickExt { app.calendarCodesWidget.show() }
-            Api.apiDbLogAddOnClickInstrument(this, linkHowto)
+    override fun afterRender() {
+        Hotkey(tbFilter).add("ENTER", ::send_request)
+        tbFilter.addEventListener("keyup", { refreshTable() }, true)
+        btnFilter.onclickExt { tbFilter.value = ""; refreshTable() }
+        pagedTable.leftInfoFun = { it, pn ->
+            ("${it.recordCount} course${if (it.recordCount == 1) "" else "s"}") + " found" +
+                    if (it.pageCount > 1) ", page $pn/${it.pageCount}" else ""
         }
+        no_pagination()
+        gui_can_create_token()
+        send_request()
+        linkFirst.onclickExt { ask_create_calendar() }
+        linkHowto.onclickExt { app.calendarCodesWidget.show() }
+        Api.apiDbLogAddOnClickInstrument(this, linkHowto)
+    }
+
+    init {
         beforeShow {
 
         }
