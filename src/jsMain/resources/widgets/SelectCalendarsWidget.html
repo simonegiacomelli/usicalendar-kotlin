@@ -1,0 +1,66 @@
+<!-- from IpListWidget -->
+<input id="btnAdd" type="submit" value="Add new ip" class="button btn btn-default">
+<br>
+<br>
+
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">First</th>
+        <th scope="col">Last</th>
+        <th scope="col">Handle</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th scope="row">1</th>
+        <td>Master of Science in Artificial Intelligence - SP 2019 - 1st y
+            ear</td>
+        <td>Otto</td>
+        <td>@mdo</td>
+    </tr>
+    <tr>
+        <th scope="row">2</th>
+        <td>Jacob</td>
+        <td>Thornton</td>
+        <td>@fat</td>
+    </tr>
+    <tr>
+        <th scope="row">3</th>
+        <td colspan="2">Larry the Bird</td>
+        <td>@twitter</td>
+    </tr>
+    </tbody>
+</table>
+
+
+<w-PagedTableWidget id="pagedTable">
+    <table>
+        <tr w-id="tableHeader">
+
+        </tr>
+    </table>
+</w-PagedTableWidget>
+
+
+<template id="rowTemplate" style="display: none;">
+    <tr id="r1">
+        <td id="fld_ip"></td>
+
+        <td id="tdDevice">
+            <div id="divDevice">
+                <span id="fld_device_description"></span>
+                <a id="editDevice" href="#" title="Edit"><img src="images/edit.gif" width="16" height="16" border="0"
+                                                              alt="Edit"></a>
+                <a id="deleteAss" href="#" title="Delete"><img src="images/delete.gif" width="16" height="16" border="0"
+                                                               alt="Delete"></a>
+            </div>
+        </td>
+        <td align="center">
+            <a id="edit" href="#" title="Edit"><img src="images/edit.gif" width="16" height="16" border="0" alt="Edit"></a>
+            <a id="delete" href="#" title="Delete"><img src="images/delete.gif" width="16" height="16" border="0"
+                                                        alt="Delete"></a>
+        </td>
+    </tr>
+</template>

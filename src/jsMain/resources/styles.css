@@ -1,0 +1,11 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+
+body{ background-color: rgba(35, 107, 157, 1); }
+.navbar{
+    background-color: rgba(254, 252, 251, 1);
+    border-radius: 0;
+}
+
+.debug{
+  color: rgba(35, 107, 157, 1);
+}

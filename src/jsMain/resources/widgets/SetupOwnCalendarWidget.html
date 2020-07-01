@@ -1,0 +1,47 @@
+<div class="container">
+
+    <div class="input-group mb-3">
+        <input type="text" id="tbFilter" class="form-control" placeholder="Search a course or a professor"
+               aria-label="" aria-describedby="button-addon2">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" id="btnFilter">&times;</button>
+        </div>
+    </div>
+
+    <a href="#" class="badge badge-primary" id="linkFirst">First use?</a>
+    <a href="#" class="badge badge-info" id="linkRequest">Creating new calendar...</a>
+    <a href="#" class="badge badge-secondary" id="linkHowto">How to...</a>
+
+    <w-PagedTableWidget id="pagedTable">
+        <table>
+            <tr w-id="tableHeader">
+                <th>Course</th>
+                <th>When</th>
+                <th></th>
+            </tr>
+        </table>
+    </w-PagedTableWidget>
+
+
+</div>
+
+
+<template id="rowTemplate" style="display: none;">
+    <tr id="r1">
+        <td id="fldsummary"></td>
+        <td id="fldwhen">
+            <span class="text-nowrap" id="fldstartdate"></span>
+            <br><span class="text-nowrap" id="fldstarttime"></span>
+            <br><span class="text-nowrap" id="fldlocation"></span>
+        </td>
+        <td>
+            <div class="custom-control custom-switch" id="fldswitch">
+                <input type="checkbox" class="custom-control-input" id="cbenable">
+                <label class="custom-control-label" id="cblabel" style="transform: scale(1.1)"></label>
+            </div>
+            <br>
+            <a href="#" class="badge badge-light" id="linkMore">...</a>
+        </td>
+    </tr>
+</template>
+
