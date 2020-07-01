@@ -24,15 +24,13 @@ class LogWidget : ResourceWidget() {
     }
 
 
-    init {
-        beforeShow {
-            header.onclick = {
-                ul.innerHTML = ""
-                close()
-            }
-            for (log in accumulator) uilog(log)
-            accumulator.clear()
+    override fun beforeShow() {
+        header.onclick = {
+            ul.innerHTML = ""
+            close()
         }
+        for (log in accumulator) uilog(log)
+        accumulator.clear()
     }
 
     private fun uilog(payloadString: String) {

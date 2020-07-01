@@ -2,7 +2,7 @@ package widgets.app
 
 import api.PagedResult
 import api.QueryCalendars
-import api.kind_ux
+import app
 import com.soywiz.klock.DateTime
 import db4common.DataTableTyped
 import fragment.*
@@ -55,16 +55,11 @@ class SetupOwnCalendarWidget() : ResourceWidget() {
         Api.apiDbLogAddOnClickInstrument(this, linkHowto)
     }
 
-    init {
-        beforeShow {
-
-        }
-        afterShow {
-            if (!SettingsWidget.cbTokenStor)
-                gui_can_create_token()
-            else
-                token_is_present()
-        }
+    override fun afterShow() {
+        if (!SettingsWidget.cbTokenStor)
+            gui_can_create_token()
+        else
+            token_is_present()
     }
 
     val token_exists get() = SettingsWidget.cbTokenStor

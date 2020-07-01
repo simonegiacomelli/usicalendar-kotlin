@@ -22,22 +22,20 @@ class ModalWidget : ResourceWidget() {
         mod
     }
 
-    init {
-        afterShow {
-            var saving = false
+    override fun afterShow() {
+        var saving = false
 
-            btnSave.onclickExt {
-                saving = true;
-                close()
-                onSave()
-            }
-            mod.on("hide.bs.modal") {
-                if (!saving)
-                    onDismiss()
-                super.close()
-            }
-            mod.modal("show")
+        btnSave.onclickExt {
+            saving = true;
+            close()
+            onSave()
         }
+        mod.on("hide.bs.modal") {
+            if (!saving)
+                onDismiss()
+            super.close()
+        }
+        mod.modal("show")
     }
 
     override fun close() {

@@ -30,13 +30,10 @@ class SelectCalendarsWidget() : ResourceWidget() {
     val rowTemplate: HTMLTemplateElement by docu
     val btnAdd: HTMLElement by docu
 
-    init {
-
-        beforeShow {
-            btnAdd.visible = false
-            pagedTable.loadTable = { loadTable() }
-            pagedTable.load()
-        }
+    override fun beforeShow() {
+        btnAdd.visible = false
+        pagedTable.loadTable = { loadTable() }
+        pagedTable.load()
     }
 
     private fun loadTable() {

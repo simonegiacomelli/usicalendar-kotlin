@@ -1,13 +1,12 @@
 package widgets.app
 
 import com.soywiz.klock.DateTimeTz
-import fragment.*
+import fragment.LocalStorage
+import fragment.ResourceManager
+import fragment.ResourceWidget
+import nswf_utils.Properties
 import org.w3c.dom.HTMLInputElement
 import org.w3c.dom.HTMLTextAreaElement
-import nswf_utils.Properties
-import nswf_utils.encodeURIComponent
-import org.w3c.dom.HTMLAnchorElement
-import kotlin.browser.window
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
@@ -51,41 +50,38 @@ class SettingsWidget : ResourceWidget() {
     }
 
 
-    init {
-        afterShow {
+    override fun afterShow() {
+        cbUrl.checked = cbUrlStor
+        tbUrl.value = tbUrlStor
+        taConf.value = taConfStor
 
-            cbUrl.checked = cbUrlStor
-            tbUrl.value = tbUrlStor
-            taConf.value = taConfStor
-
-            cbUrl.onclick = {
-                cbUrlStor = cbUrl.checked
-                0
-            }
-
-            tbUrl.onkeydown = {
-                tbUrlStor = tbUrl.value
-                0
-            }
-
-            cbToken.checked = cbTokenStor
-            tbToken.value = tbTokenStor
-            cbToken.onclick = {
-                cbTokenStor = cbToken.checked
-                0
-            }
-
-            tbToken.onkeydown = {
-                tbTokenStor = tbToken.value
-                0
-            }
-
-            taConf.onkeydown = {
-                taConfStor = taConf.value
-                0
-            }
-
-
+        cbUrl.onclick = {
+            cbUrlStor = cbUrl.checked
+            0
         }
+
+        tbUrl.onkeydown = {
+            tbUrlStor = tbUrl.value
+            0
+        }
+
+        cbToken.checked = cbTokenStor
+        tbToken.value = tbTokenStor
+        cbToken.onclick = {
+            cbTokenStor = cbToken.checked
+            0
+        }
+
+        tbToken.onkeydown = {
+            tbTokenStor = tbToken.value
+            0
+        }
+
+        taConf.onkeydown = {
+            taConfStor = taConf.value
+            0
+        }
+
+
     }
 }

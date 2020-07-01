@@ -19,14 +19,11 @@ class AlertWidget : ResourceWidget() {
         mod
     }
 
-    init {
-        afterShow {
-
-            mod.on("hide.bs.modal") {
-                super.close()
-            }
-            mod.modal("show")
+    override fun afterShow() {
+        mod.on("hide.bs.modal") {
+            super.close()
         }
+        mod.modal("show")
     }
 
 

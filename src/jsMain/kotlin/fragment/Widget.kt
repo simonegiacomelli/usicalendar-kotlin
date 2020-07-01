@@ -401,22 +401,20 @@ abstract class ResourceWidget {
     }
 
     fun callBeforeShow() {
-        beforeShowFun.forEach { it.invoke() }
+        beforeShow()
         children.forEach { it.callBeforeShow() }
     }
 
+    open fun beforeShow(){}
+
     fun callAfterShow() {
-        afterShowFun.forEach { it.invoke() }
+        afterShow()
         children.forEach { it.callAfterShow() }
     }
 
+    open fun afterShow(){}
 
     open fun close() = parent.close(this)
-
-    internal val beforeShowFun = arrayListOf<() -> Unit>()
-    internal val afterShowFun = arrayListOf<() -> Unit>()
-    //internal val afterRenderFun = arrayListOf<() -> Unit>()
-
 }
 
 open class TemplateWidget(val template: HTMLTemplateElement) : ResourceWidget() {
@@ -429,13 +427,3 @@ open class TemplateWidget(val template: HTMLTemplateElement) : ResourceWidget() 
 
 fun HTMLTemplateElement.newWidget() = TemplateWidget(this)
 
-
-fun <T : ResourceWidget> T.beforeShow(func: T.() -> Unit): T {
-    beforeShowFun.add { func() }
-    return this
-}
-
-fun <T : ResourceWidget> T.afterShow(func: T.() -> Unit): T {
-    afterShowFun.add { func() }
-    return this
-}

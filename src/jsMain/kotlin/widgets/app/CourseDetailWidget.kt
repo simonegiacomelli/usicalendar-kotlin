@@ -2,10 +2,8 @@ package widgets.app
 
 
 import api.QueryCalendars
-import api.kind_ux
 import fragment.ResourceManager
 import fragment.ResourceWidget
-import fragment.afterShow
 import org.w3c.dom.HTMLAnchorElement
 import org.w3c.dom.HTMLSpanElement
 import starter2.Api
