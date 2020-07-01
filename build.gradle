@@ -89,6 +89,7 @@ kotlin {
 
 jvmJar {
     dependsOn(jsBrowserProductionWebpack)
+    //includes compiled js file
     from(new File(jsBrowserProductionWebpack.entry.name, jsBrowserProductionWebpack.outputPath))
 }
 

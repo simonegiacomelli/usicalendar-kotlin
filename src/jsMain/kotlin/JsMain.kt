@@ -33,7 +33,7 @@ object JsMain {
         done = true
 
 
-        ResourceManager.baseurl = "/usicalendar/static/"
+        ResourceManager.baseurl = ""
 
         GlobalScope.launch {
             app.args //this line force to instantiante arguments
