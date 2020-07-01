@@ -178,9 +178,6 @@ open class ResourceManagerCls {
         return opt
     }
 
-
-    var baseurl = ""
-
     inline fun <reified T : ResourceWidget> loadResource(noinline widgetConstructor: () -> T): Promise<String> {
         val opt = reg { widgetConstructor() }
         if (opt.resourceContent.isBlank())

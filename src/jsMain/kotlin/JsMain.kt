@@ -32,9 +32,6 @@ object JsMain {
         if (done) return
         done = true
 
-
-        ResourceManager.baseurl = ""
-
         GlobalScope.launch {
             app.args //this line force to instantiante arguments
             window.history.replaceState(Any(), document.title, ".")
@@ -45,11 +42,6 @@ object JsMain {
                 Api.apiLog("application-startup", "with token param")
             } else
                 Api.apiLog("application-startup", "without token param")
-//            Promise.all(arrayOf(
-//                ResourceManager.loadResource { SetupOwnCalendarWidget() }
-//                , ResourceManager.loadResource { HeaderWidget() }
-//                , ResourceManager.loadResource { PagedTableWidget() }
-//            )).await()
             ResourceManager.loadResources()
             val rootDiv = document.getElementById("rootDiv")!!
             //rootDiv.appendChild(rootWidget.elementInstance)
