@@ -45,11 +45,11 @@ object JsMain {
                 Api.apiLog("application-startup", "with token param")
             } else
                 Api.apiLog("application-startup", "without token param")
-            Promise.all(arrayOf(
-                ResourceManager.loadResource { SetupOwnCalendarWidget() }
-                , ResourceManager.loadResource { HeaderWidget() }
-                , ResourceManager.loadResource { PagedTableWidget() }
-            )).await()
+//            Promise.all(arrayOf(
+//                ResourceManager.loadResource { SetupOwnCalendarWidget() }
+//                , ResourceManager.loadResource { HeaderWidget() }
+//                , ResourceManager.loadResource { PagedTableWidget() }
+//            )).await()
             ResourceManager.loadResources()
             val rootDiv = document.getElementById("rootDiv")!!
             //rootDiv.appendChild(rootWidget.elementInstance)

@@ -7,6 +7,7 @@ import nswf.Logger
 import nswf.logger
 import org.w3c.dom.*
 import kotlin.browser.document
+import kotlin.browser.window
 import kotlin.js.Promise
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
@@ -84,7 +85,9 @@ class WidgetManagerSingle : HolderBase() {
         if (!widgets.remove(widget)) return //already removed
 
         val ele = widget.elementInstance
-        if (elementInstance.children.asList().filter { it == ele }.size != 1) throw ex("element not found in holder children!");
+        if (elementInstance.children.asList()
+                .filter { it == ele }.size != 1
+        ) throw ex("element not found in holder children!");
         ele.remove()
     }
 
@@ -122,6 +125,7 @@ fun Element.ensureWidgetInstance() = if (isWidgetTagName) widgetInstance else An
 
 object ResourceManager : ResourceManagerCls()
 open class ResourceManagerCls {
+    val resources by lazy { window.asDynamic()["widget_resources"] as Map<String, String> } //this comes from generated code
 
     inner class Options(val simpleName: String, val tagName: String, kClass: KClass<out Any>) {
         var _promise: Promise<String>? = null
@@ -131,6 +135,12 @@ open class ResourceManagerCls {
         var widgetConstructor: (() -> ResourceWidget)? = null
 
         fun loadResourceOpt(): Promise<String> {
+            val resName = "${simpleName}.html"
+
+            resourceContent = window.atob(resources.getOrElse(resName) { "" })
+            val content_excerpt = resourceContent.replace("\n", " ").replace("\r", " ").substring(0, 10)
+            println("Requesting DONE ${simpleName} $content_excerpt")
+
             val _promise = _promise
             if (_promise != null)
                 return _promise
@@ -138,8 +148,6 @@ open class ResourceManagerCls {
             this._promise = promise
             println("Requesting ${simpleName}")
             promise.then { content ->
-                val content_excerpt = content.replace("\n", " ").replace("\r", " ").substring(0, 10)
-                println("Requesting DONE ${simpleName} $content_excerpt")
                 resourceContent = content
             }
             return promise
@@ -194,6 +202,7 @@ open class ResourceManagerCls {
     }
 
     fun loadResources(): Unit = simpleNames.filter { it.value.loadResource }.forEach {
+
         val opt = it.value
         loadResourceOpt(opt)
     }
