@@ -18,12 +18,13 @@ def ktor_version = '1.1.3'
 def logback_version = '1.2.3'
 def serialization_version = '0.20.0'
 def klockVersion = "1.4.0"
+final js_generated_sources = 'build/generated_sources_project_properties'
 
 kotlin {
     jvm()
     js {
         compilations.main.compileKotlinTask.doFirst {
-            def dir = file("build/generated_sources_project_properties")
+            def dir = file(js_generated_sources)
             dir.mkdirs()
             def output = new java.io.File(dir, "generated1.kt")
             def content = file("generated_template.kt").text.replace("{BUILDDATE}", "${new Date()}")
@@ -37,6 +38,7 @@ kotlin {
             dependencies {
                 implementation kotlin('stdlib-common')
                 implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:$serialization_version"
+                implementation "com.soywiz:klock-metadata:$klockVersion"
             }
         }
         commonTest {
@@ -52,6 +54,7 @@ kotlin {
                 implementation "io.ktor:ktor-html-builder:$ktor_version"
                 implementation "ch.qos.logback:logback-classic:$logback_version"
                 implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serialization_version"
+                implementation "com.soywiz:klock-jvm:$klockVersion"
             }
         }
         jvmTest {
@@ -64,8 +67,9 @@ kotlin {
             dependencies {
                 implementation kotlin('stdlib-js')
                 implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:$serialization_version"
+                implementation "com.soywiz:klock-js:$klockVersion"
             }
-            kotlin.srcDirs += 'build/generated_sources_project_properties'
+            kotlin.srcDirs += js_generated_sources
         }
         jsTest {
             dependencies {
