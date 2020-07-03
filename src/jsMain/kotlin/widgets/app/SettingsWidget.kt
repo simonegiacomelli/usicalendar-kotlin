@@ -31,22 +31,23 @@ class SettingsWidget : ResourceWidget() {
         var tbDtCreationStor: DateTimeTz by LocalStorage("app.creation.date", DateTimeTz.fromUnixLocal(0))
         var tbDtCreationStrStor: String by LocalStorage("app.creation.date.str", "")
 
-        var taConfStor: String by LocalStorage("app.configuration", "1")
-        private fun fresh() = Properties().apply({ merge(taConfStor) })
+        var taConfStor: String by LocalStorage("app.configuration", "")
+        private fun fresh() = Properties().apply { merge(taConfStor) }
 
 
-        val readWriteProperty = object : ReadWriteProperty<Any, String> {
+        class StringProperty(val defaultValue: String = "") : ReadWriteProperty<Any, String> {
             override fun getValue(thisRef: Any, property: KProperty<*>): String {
-                val get = fresh().get(property.name)
-                if (get == null) setValue(thisRef, property, "")
-                return get ?: ""
+                val get = fresh()[property.name]
+                if (get == null) setValue(thisRef, property, defaultValue)
+                return get ?: defaultValue
             }
 
             override fun setValue(thisRef: Any, property: KProperty<*>, value: String) {
                 taConfStor = fresh().apply { set(property.name, value) }.toString()
             }
         }
-        var alsoExpiredStr: String by readWriteProperty
+
+        var alsoExpiredStr: String by StringProperty("1")
         val alsoExpired: Boolean get() = alsoExpiredStr == "1"
     }
 
