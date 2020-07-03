@@ -1,8 +1,13 @@
 package sample
 
-import org.jetbrains.exposed.dao.*
-import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.dao.EntityID
+import org.jetbrains.exposed.dao.LongEntity
+import org.jetbrains.exposed.dao.LongEntityClass
+import org.jetbrains.exposed.dao.LongIdTable
+import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.joda.time.DateTime
 import java.sql.Connection
 import java.sql.DriverManager
 
@@ -73,6 +78,16 @@ class AppLog(id: EntityID<Long>) : LongEntity(id) {
 object Webcals : LongIdTable() {
     val url = varchar("url", 1000)
     val dtCreation = datetime("dt_creation")
+
+    fun addTestCalendar(cal: String) {
+        transaction {
+            if (select { url eq cal }.count() == 0)
+                insert {
+                    it[url] = cal
+                    it[dtCreation] = DateTime()
+                }
+        }
+    }
 }
 
 class Webcal(id: EntityID<Long>) : LongEntity(id) {

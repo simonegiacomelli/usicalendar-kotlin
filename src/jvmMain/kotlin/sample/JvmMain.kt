@@ -50,6 +50,8 @@ val nswf by lazy { nswfCl() }
 fun main() {
     setupDatabase()
 
+    Webcals.addTestCalendar("file:./ics-test/inf3.ics")
+
     registerDbLogApi()
     registerCourseStatusApi()
     registerCreateTokenApi()

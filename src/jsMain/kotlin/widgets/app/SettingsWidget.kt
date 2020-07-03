@@ -31,7 +31,7 @@ class SettingsWidget : ResourceWidget() {
         var tbDtCreationStor: DateTimeTz by LocalStorage("app.creation.date", DateTimeTz.fromUnixLocal(0))
         var tbDtCreationStrStor: String by LocalStorage("app.creation.date.str", "")
 
-        var taConfStor: String by LocalStorage("app.configuration", "")
+        var taConfStor: String by LocalStorage("app.configuration", "1")
         private fun fresh() = Properties().apply({ merge(taConfStor) })
 
 
