@@ -9,6 +9,10 @@ import io.ktor.application.log
 import io.ktor.features.ConditionalHeaders
 import io.ktor.features.DefaultHeaders
 import io.ktor.http.content.*
+import io.ktor.request.path
+import io.ktor.request.uri
+import io.ktor.response.respondFile
+import io.ktor.response.respondRedirect
 import io.ktor.routing.get
 import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
@@ -26,8 +30,12 @@ import java.text.SimpleDateFormat
 val L by lazy { Logger("base-main") }
 
 
-
 class nswfCl : NswfServer<NettyContext>() {
+    fun test(function: () -> Unit): Any {
+        function()
+        return 0
+    }
+
     val allUrlCache = AllUrlCache()
 
     init {
@@ -40,8 +48,14 @@ class nswfCl : NswfServer<NettyContext>() {
 val nswf by lazy { nswfCl() }
 
 fun main() {
-
     setupDatabase()
+
+    registerDbLogApi()
+    registerCourseStatusApi()
+    registerCreateTokenApi()
+    registerQueryCalendarsApi()
+    registerSqlQueryApi()
+
 
     embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
         val sdf = SimpleDateFormat("yyyy-MM-dd--HH-mm-ss")
@@ -105,9 +119,16 @@ fun main() {
 
         }
         routing {
-            static("usicalendar") {
+            get("usicalendar") {
+                println( context.request.uri)
+                if(context.request.path().endsWith("/"))
+                    call.respondFile(webDir.resolve("index.html"))
+                else
+                    call.respondRedirect("/usicalendar/", permanent = false)
+
+            }
+            static("/usicalendar/") {
                 files(webDir)
-                default(webDir.resolve("index.html"))
             }
             static("/src") {
                 files("./src")

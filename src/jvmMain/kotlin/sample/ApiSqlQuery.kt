@@ -2,7 +2,7 @@ package sample
 
 import api.SqlQuery
 
-private val x = nswf.apply {
+fun registerSqlQueryApi() = nswf.apply {
     api(::SqlQuery) { ctx, param, res ->
         if (ctx.token_ok && ctx.calendar.isAdmin == true) {
             res.success = "1"

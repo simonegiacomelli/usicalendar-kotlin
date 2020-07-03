@@ -7,7 +7,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import org.joda.time.DateTime
 
 
-private val x = nswf.apply {
+fun registerCreateTokenApi() = nswf.apply {
     api(::CreateToken, preApi = { true }) { ctx, param, res ->
 
         transaction {

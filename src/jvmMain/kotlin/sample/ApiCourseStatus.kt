@@ -6,7 +6,7 @@ import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.joda.time.DateTime
 
-private val x = nswf.apply {
+fun registerCourseStatusApi() = nswf.apply {
     api(::CourseStatus) { ctx, param, res ->
         if (!ctx.token_ok) {
             ctx.forbidden()

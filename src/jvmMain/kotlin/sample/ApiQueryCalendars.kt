@@ -10,7 +10,7 @@ import org.jetbrains.exposed.sql.update
 import kotlin.system.measureTimeMillis
 
 
-private val x = nswf.apply {
+fun registerQueryCalendarsApi() = nswf.apply {
     api(::QueryCalendars) { ctx, param, res ->
         measureTimeMillis {
 

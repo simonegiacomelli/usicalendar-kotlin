@@ -8,7 +8,8 @@ import starter.NettyContext
 import java.lang.Exception
 import kotlin.system.measureTimeMillis
 
-private val x = nswf.apply {
+fun registerDbLogApi() = nswf.apply {
+    L.info("called!!")
     api(::DbLog) { ctx, param, res ->
         measureTimeMillis {
             try {
