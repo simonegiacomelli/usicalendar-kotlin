@@ -1,6 +1,8 @@
 package sample
 
 import api.QueryCalendars
+import calendar.CalAggregator
+import com.soywiz.klock.DateTime
 import org.jetbrains.exposed.sql.CurrentDateTime
 import org.jetbrains.exposed.sql.SqlExpressionBuilder
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
@@ -22,7 +24,12 @@ fun registerQueryCalendarsApi() = nswf.apply {
             } else emptySet()
 
             val filter = param.filter
-            val courses = agg.groupCoursesBySummary(filter.splitToSequence(",").toSet())
+            val alsoExpired = param.alsoExpired
+            val dateFilter = if (alsoExpired) CalAggregator.dtDef else DateTime.now().local
+            val courses = agg.groupCoursesBySummary(
+                filter.splitToSequence(",").toSet(),
+                dateTimeTz = dateFilter
+            )
 
             val tab = QueryCalendars.cl_calendar.new()
             courses.forEach {

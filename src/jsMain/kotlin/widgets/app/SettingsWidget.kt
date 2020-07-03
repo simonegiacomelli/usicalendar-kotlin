@@ -46,7 +46,8 @@ class SettingsWidget : ResourceWidget() {
                 taConfStor = fresh().apply { set(property.name, value) }.toString()
             }
         }
-
+        var alsoExpiredStr: String by readWriteProperty
+        val alsoExpired: Boolean get() = alsoExpiredStr == "1"
     }
 
 

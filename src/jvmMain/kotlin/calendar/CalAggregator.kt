@@ -45,7 +45,7 @@ class CalAggregator(val urlCache: AllUrlCache) {
     }
 
     private suspend fun eventSet(filters: Set<String>): MutableSet<CEvent> {
-        if (filters.size == 0)
+        if (filters.isEmpty())
             return mutableSetOf()
 
         val contents = urlCache.collect()
@@ -64,7 +64,7 @@ class CalAggregator(val urlCache: AllUrlCache) {
 
     suspend fun groupCoursesBySummary(
         filters: Set<String>,
-        dateTimeTz: DateTimeTz = DateTime.now().local
+        dateTimeTz: DateTimeTz
     ): List<CEvent> {
         val set = eventSet(filters).groupBy { it.summary }
         val courses = set.map { entry ->

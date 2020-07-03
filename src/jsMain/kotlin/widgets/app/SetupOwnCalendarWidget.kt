@@ -113,6 +113,7 @@ class SetupOwnCalendarWidget() : ResourceWidget() {
         addLoadingRow()
         Api.apiQueryCalendars.new {
             it.filter = ""
+            it.alsoExpired = SettingsWidget.alsoExpired
         }.call {
             this.table = it.tab
             refreshTable()
@@ -135,7 +136,7 @@ class SetupOwnCalendarWidget() : ResourceWidget() {
             it.summary.contains(tbFilter.value, ignoreCase = true)
                     || it.location.contains(tbFilter.value, ignoreCase = true)
         }.filter {
-            it.dateEnd > DateTime.now().local
+            it.dateEnd > DateTime.now().local || SettingsWidget.alsoExpired
         }
             .sortedWith(compareBy({ !it.active }, { it.dateStart }))
             .forEach { row ->

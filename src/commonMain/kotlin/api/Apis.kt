@@ -107,6 +107,7 @@ class AppLogInspect(del: Delegate) : ApiRequest<EmptyResult> {
 
 class QueryCalendars(del: Delegate) : ApiRequest<QueryCalendars.Result> {
     var filter: String by del.string
+    var alsoExpired: Boolean by del.boolean
     override val res = ::Result
 
     class Result(del: Delegate) {
@@ -169,6 +170,7 @@ class RackList(del: Delegate) : ApiRequest<RackList.Result> {
 
     class Result(del: Delegate) {
         var success: String by del.string
+
         //var table by del.del.dataTableTyped { rm_rack() }
         var table: DataTableTyped<rm_rack> by del.table { rm_rack() }
         //var table by del.DataTableDel
