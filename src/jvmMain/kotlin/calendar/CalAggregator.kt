@@ -64,7 +64,7 @@ class CalAggregator(val urlCache: AllUrlCache) {
 
     suspend fun groupCoursesBySummary(
         filters: Set<String>,
-        dateTimeTz: DateTimeTz
+        dateTimeTz: DateTimeTz = DateTime.now().local
     ): List<CEvent> {
         val set = eventSet(filters).groupBy { it.summary }
         val courses = set.map { entry ->
