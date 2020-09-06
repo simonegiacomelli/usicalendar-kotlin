@@ -13,6 +13,7 @@ import kotlin.browser.document
 import kotlin.browser.window
 import kotlin.random.Random
 import kotlin.random.nextUInt
+import org.w3c.dom.Navigator
 
 private val init = Appenders.add { LogWidget.log(it) }
 fun main() {

@@ -2,10 +2,12 @@ package kotlin_play
 
 import kotlin_play.nswf.rpc.Client
 import kotlin_play.nswf.rpc.http_param_serialized_request
+import kotlinx.serialization.ImplicitReflectionSerializer
 import java.net.URL
 import java.net.URLEncoder
 
 
+@ImplicitReflectionSerializer
 suspend fun main() {
     val r = HttpNswfRequest().New(LoginRequest("foo", "bar"))
     println("response is ${r}")

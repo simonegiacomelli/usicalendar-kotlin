@@ -9,8 +9,10 @@ import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import kotlin_play.nswf.rpc.Server
 import kotlin_play.nswf.rpc.http_param_serialized_request
+import kotlinx.serialization.ImplicitReflectionSerializer
 
 
+@ImplicitReflectionSerializer
 fun main() {
     val sh = Server()
 
